@@ -23,19 +23,15 @@ public class AwakenerService {
     @Autowired
     private CountryRepository countryRepository;
     @Autowired
-    private PositionRepository positionRepository;
-    @Autowired
     private GuildRepository guildRepository;
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
 
-    public List<HumanR> getHumansList(Long id){
+    public List<HumanR> getHumansList(Long id) {
         List<Human> list = humanRepository.findAll();
         List<HumanR> listNew = new ArrayList<>();
-        if (!list.isEmpty()){
+        if (!list.isEmpty()) {
             for (Human human : list) {
-                if (human.getCountry().getId_country().equals(id)){
+                if (human.getCountry().getId_country().equals(id)) {
                     listNew.add(
                             new HumanR()
                                     .setId(human.getId_human())
@@ -58,43 +54,38 @@ public class AwakenerService {
             Integer rank,
             Integer experience,
             Timestamp awakeTime
-    ){
+    ) {
 
         Human human = new Human()
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setBirthday(birthday)
                 .setCountry(countryRepository.getById(id_country));
+        awakenerRepository.save(
+                new Awakener()
+                        .setHuman(human)
+                        .setGuild(guildRepository.getById(id_guild))
+                        .setRank(rank)
+                        .setExperience(experience)
+                        .setAwakeTime(awakeTime)
+        );
+        humanRepository.save(human);
 
-//        if (employeeRepository.findByHuman(human) != null)
-//            return false;
-//        else{
-            awakenerRepository.save(
-                    new Awakener()
-                            .setHuman(human)
-                            .setGuild(guildRepository.getById(id_guild))
-                            .setRank(rank)
-                            .setExperience(experience)
-                            .setAwakeTime(awakeTime)
-            );
-            humanRepository.save(human);
-
-            return true;
-        }
-
-//    }
-
-    public boolean deleteAwakener(Long id){
-        awakenerRepository.deleteById(id);
-        //humanRepository.deleteById(id);
         return true;
     }
 
-    public Awakener getInfoById(Long id){
+//    }
+
+    public boolean deleteAwakener(Long id) {
+        awakenerRepository.deleteById(id);
+        return true;
+    }
+
+    public Awakener getInfoById(Long id) {
         return awakenerRepository.getById(id);
     }
 
-    public List<Awakener> getAwakenersByCountry(Long id_country){
+    public List<Awakener> getAwakenersByCountry(Long id_country) {
         return awakenerRepository.findAllByCountryId(id_country);
     }
 

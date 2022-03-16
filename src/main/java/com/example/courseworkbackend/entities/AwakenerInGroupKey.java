@@ -1,6 +1,8 @@
 package com.example.courseworkbackend.entities;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Embeddable;

@@ -2,7 +2,6 @@ package com.example.courseworkbackend.services;
 
 import com.example.courseworkbackend.entities.*;
 import com.example.courseworkbackend.entities.dao.requests.CoordinateD;
-import com.example.courseworkbackend.entities.dao.responses.CoordinateR;
 import com.example.courseworkbackend.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -38,19 +37,19 @@ public class EmployeeService {
     @SneakyThrows
     @Transactional
     public boolean addNewEmployee(
-                String firstName,
-                String lastName,
-                Timestamp birthday,
-                Long id_country,
-                Long id_position,
-                Integer experience,
-                Integer accessLevel,
-                Timestamp startTime,
-                Timestamp endTime,
-                String login,
-                String password){
+            String firstName,
+            String lastName,
+            Timestamp birthday,
+            Long id_country,
+            Long id_position,
+            Integer experience,
+            Integer accessLevel,
+            Timestamp startTime,
+            Timestamp endTime,
+            String login,
+            String password) {
 
-        if (userRepository.findUserByLogin(login) == null){
+        if (userRepository.findUserByLogin(login) == null) {
             Human human = createHuman(firstName, lastName, birthday, id_country);
             Guild guild = guildRepository.getById(id_country);
             Employee employee = createEmployee(human, id_position, experience, accessLevel, startTime, endTime, guild);
@@ -60,8 +59,7 @@ public class EmployeeService {
                             .setPassword(enctyptPass(password))
                             .setEmployee(employee));
             return true;
-        }
-        else return false;
+        } else return false;
 
     }
 
@@ -77,21 +75,20 @@ public class EmployeeService {
             Timestamp endTime,
             String login,
             String password,
-            Long id_guild){
+            Long id_guild) {
 
 
-        if (userRepository.findUserByLogin(login) == null){
+        if (userRepository.findUserByLogin(login) == null) {
             Human human = humanRepository.getById(id_human);
             Guild guild = guildRepository.getById(id_guild);
-            Employee employee = createEmployee(human, id_position, experience, accessLevel, startTime, endTime,guild);
+            Employee employee = createEmployee(human, id_position, experience, accessLevel, startTime, endTime, guild);
             userRepository.save(
                     new User()
                             .setLogin(login)
                             .setPassword(enctyptPass(password))
                             .setEmployee(employee));
             return true;
-        }
-        else return false;
+        } else return false;
 
     }
 
@@ -101,7 +98,7 @@ public class EmployeeService {
             String lastName,
             Timestamp birthday,
             Long id_country
-    ){
+    ) {
         Human human = new Human()
                 .setFirstName(firstName)
                 .setLastName(lastName)
@@ -109,7 +106,7 @@ public class EmployeeService {
                 .setCountry(countryRepository.getById(id_country));
 
         human = humanRepository.save(human);
-            return human;
+        return human;
 
     }
 
@@ -122,7 +119,7 @@ public class EmployeeService {
             Timestamp startTime,
             Timestamp endTime,
             Guild guild
-    ){
+    ) {
         Employee employee = new Employee()
                 .setHuman(human)
                 .setPositionId(
@@ -133,29 +130,25 @@ public class EmployeeService {
                 .setStartTime(startTime)
                 .setEndTime(endTime)
                 .setGuild(guild);
-        return  employeeRepository.save(employee);
+        return employeeRepository.save(employee);
     }
 
-    public List<Employee> getEmployees(Long guild_id){
+    public List<Employee> getEmployees(Long guild_id) {
         return employeeRepository.getListEmployeeByCountry(guild_id);
-//        return employeeRepository.getEmployeeByGuild(
-//                guildRepository.getById(guild_id));
     }
 
 
-    public String getPositionNameById(Long id){
-        return  positionRepository.getById(id).getPosition_name();
+    public String getPositionNameById(Long id) {
+        return positionRepository.getById(id).getPosition_name();
     }
 
-    public boolean deleteEmployee(Long id){
+    public boolean deleteEmployee(Long id) {
         Employee employee = employeeRepository.getById(id);
-        if (employee.getAccessLevel() < 10){
-//            userRepository.deleteUserByEmployee(employee);
-//            employeeRepository.deleteById(id);
+        if (employee.getAccessLevel() < 10) {
             employee.setEndTime(new Timestamp(System.currentTimeMillis()));
             employeeRepository.save(employee);
             return true;
-        }else
+        } else
             return false;
     }
 
@@ -170,7 +163,7 @@ public class EmployeeService {
 
     }
 
-    public Long addCoordinate(CoordinateD coordinateD){
+    public Long addCoordinate(CoordinateD coordinateD) {
         Coordinate coordinate = coordinateRepository.save(
                 new Coordinate()
                         .setLatitude(coordinateD.getLatitude())

@@ -1,9 +1,11 @@
 package com.example.courseworkbackend.services;
 
-import com.example.courseworkbackend.entities.*;
+import com.example.courseworkbackend.entities.Awakener;
+import com.example.courseworkbackend.entities.AwakenerInGroup;
+import com.example.courseworkbackend.entities.AwakenerInGroupKey;
+import com.example.courseworkbackend.entities.Group;
 import com.example.courseworkbackend.entities.dao.responses.AwakenerInGroupR;
 import com.example.courseworkbackend.entities.dao.responses.GroupR;
-import com.example.courseworkbackend.entities.dao.responses.HumanR;
 import com.example.courseworkbackend.repositories.AwakenerInGroupRepository;
 import com.example.courseworkbackend.repositories.AwakenerRepository;
 import com.example.courseworkbackend.repositories.GroupRepository;
@@ -25,13 +27,13 @@ public class CoordinatorService {
     @Autowired
     private GroupRepository groupRepository;
 
-    public void addGroup(String name){
+    public void addGroup(String name) {
         Group newGroup = new Group();
         newGroup.setName(name);
         groupRepository.save(newGroup).setAccessLevel(-1);
     }
 
-    public List<GroupR> getGroupList(){
+    public List<GroupR> getGroupList() {
         List<Group> list = groupRepository.findAll();
         List<GroupR> listNew = new ArrayList<>();
         if (!list.isEmpty()) {
@@ -46,10 +48,10 @@ public class CoordinatorService {
         return listNew;
     }
 
-    public List<GroupR> getListGroupsForAwakener(Long id){
+    public List<GroupR> getListGroupsForAwakener(Long id) {
         List<Group> list = groupRepository.getListGroupByAwakener(id);
         List<GroupR> listNew = new ArrayList<>();
-        if (!list.isEmpty()){
+        if (!list.isEmpty()) {
             for (Group group : list) {
                 listNew.add(
                         new GroupR()
@@ -62,7 +64,7 @@ public class CoordinatorService {
         return listNew;
     }
 
-    public List<AwakenerInGroupR> getAwakenerInGroupList(){
+    public List<AwakenerInGroupR> getAwakenerInGroupList() {
         List<AwakenerInGroup> list = awakenerInGroupRepository.findAll();
         List<AwakenerInGroupR> listNew = new ArrayList<>();
         if (!list.isEmpty()) {
@@ -81,13 +83,13 @@ public class CoordinatorService {
         Group group = groupRepository.getById(id_group);
         Awakener awakener = awakenerRepository.getById(id_human);
 
-        if(awakenerInGroupRepository.findById(new AwakenerInGroupKey().setGroup(group).setHuman(awakener.getHuman())).isPresent()){
+        if (awakenerInGroupRepository.findById(new AwakenerInGroupKey().setGroup(group).setHuman(awakener.getHuman())).isPresent()) {
             throw new Exception();
         }
 
         awakenerInGroupRepository.save(
                 new AwakenerInGroup().setAwakenerInGroupKey(
-                        new AwakenerInGroupKey().setGroup(group).setHuman(awakener.getHuman()))
+                                new AwakenerInGroupKey().setGroup(group).setHuman(awakener.getHuman()))
                         .setJoinTime(join_time).setEndTime(null));
     }
 
@@ -96,8 +98,8 @@ public class CoordinatorService {
         Awakener awakener = awakenerRepository.getById(id_human);
 
         AwakenerInGroup awakenerInGroup = awakenerInGroupRepository.getById(
-                new  AwakenerInGroupKey().setGroup(group).setHuman(awakener.getHuman()));
-        if(awakenerInGroup.getEndTime() != null){
+                new AwakenerInGroupKey().setGroup(group).setHuman(awakener.getHuman()));
+        if (awakenerInGroup.getEndTime() != null) {
             throw new Exception();
         }
 
@@ -106,6 +108,5 @@ public class CoordinatorService {
         awakenerInGroupRepository.save(awakenerInGroup);
     }
 
-    
 
 }

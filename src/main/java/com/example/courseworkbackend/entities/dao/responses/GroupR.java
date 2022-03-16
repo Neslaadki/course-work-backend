@@ -10,4 +10,5 @@ public class GroupR {
     private Long id;
     private String name;
     private Integer accessLevel;
+
 }

@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 public class EmployeeD {
     private String login;
     private String password;
-
     private Long id_human; // если null, то новый Human
 
     private String firstName;

@@ -1,6 +1,7 @@
 package com.example.courseworkbackend.controllers;
 
-import com.example.courseworkbackend.entities.*;
+import com.example.courseworkbackend.entities.Awakener;
+import com.example.courseworkbackend.entities.Employee;
 import com.example.courseworkbackend.entities.dao.requests.*;
 import com.example.courseworkbackend.entities.dao.responses.*;
 import com.example.courseworkbackend.services.*;
@@ -41,11 +42,11 @@ public class AppController {
      */
 
     @PostMapping(value = "/addCoordinate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> addCoordinate(@RequestBody CoordinateD coordinateD){
+    public Map<String, String> addCoordinate(@RequestBody CoordinateD coordinateD) {
         responseMap = new HashMap<>();
         try {
             responseMap.put("id", employeeService.addCoordinate(coordinateD).toString());
-        }catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("id", null);
         }
         return responseMap;
@@ -56,12 +57,12 @@ public class AppController {
      */
 
     @PostMapping(value = "addMaterial", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> addMaterials(@RequestBody MaterialD materialD){
+    public Map<String, String> addMaterials(@RequestBody MaterialD materialD) {
         responseMap = new HashMap<>();
         try {
             registerService.addMaterial(materialD);
             responseMap.put("result", "true");
-        }catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("result", "false");
         }
         return responseMap;
@@ -72,12 +73,12 @@ public class AppController {
      */
 
     @PostMapping(value = "addRiftStatus", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> addRiftStatus(@RequestBody RiftStatusD riftStatusD){
+    public Map<String, String> addRiftStatus(@RequestBody RiftStatusD riftStatusD) {
         responseMap = new HashMap<>();
         try {
             registerService.addStatusRift(riftStatusD);
             responseMap.put("result", "true");
-        }catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("result", "false");
         }
         return responseMap;
@@ -99,7 +100,7 @@ public class AppController {
             responseMap.put("result", Boolean.toString(result));
         } catch (IllegalArgumentException e1) {
             responseMap.put("result", "Некорректно заполнены поля");
-        } catch (Exception e2){
+        } catch (Exception e2) {
             responseMap.put("result", "false");
         }
 
@@ -172,7 +173,7 @@ public class AppController {
             responseMap = new HashMap<>();
             coordinatorService.addGroup(groupD.getName().trim());
             responseMap.put("result", "true");
-        }catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("result", "false");
         }
 
@@ -212,8 +213,8 @@ public class AppController {
             responseMap = new HashMap<>();
             registerService.setArtifactOrMonsterType(typesD.getName().trim(), typesD.getDescription().trim(), typesD.getClassTypeName().trim());
             responseMap.put("result", "true");
-        }catch (Exception e){
-            responseMap.put("result","false");
+        } catch (Exception e) {
+            responseMap.put("result", "false");
         }
 
         return responseMap;
@@ -225,7 +226,7 @@ public class AppController {
             responseMap = new HashMap<>();
             registerService.addArtifact(artifactD.getId_type(), artifactD.getId_rift(), artifactD.getPrice());
             responseMap.put("result", "true");
-        }catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("result", "false");
         }
 
@@ -238,7 +239,7 @@ public class AppController {
         try {
             registerService.addMonster(monsterD.getId_type(), monsterD.getId_rift(), monsterD.getRank());
             responseMap.put("result", "true");
-        } catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("result", "rank");
         }
 
@@ -252,7 +253,7 @@ public class AppController {
             registerService.addRift(riftD.getCoordinateId(), riftD.getCountryId(), riftD.getRank(), riftD.getAccessLevel(),
                     riftD.getReward());
             responseMap.put("result", "true");
-        }catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("result", "false");
         }
         return responseMap;
@@ -265,7 +266,7 @@ public class AppController {
             rcManagerService.addRc(recyclingCenterD.getCoordinateId(), recyclingCenterD.getTypeId(), recyclingCenterD.getCountryId(),
                     recyclingCenterD.getAccess_level());
             responseMap.put("result", "true");
-        }catch (Exception e){
+        } catch (Exception e) {
             responseMap.put("result", "false");
         }
 
@@ -346,7 +347,7 @@ public class AppController {
     }
 
     @GetMapping(value = "/getListGroupsForAwakener/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<GroupR> getListGroupsForAwakener(@PathVariable(value = "id") Long id){
+    public List<GroupR> getListGroupsForAwakener(@PathVariable(value = "id") Long id) {
         return coordinatorService.getListGroupsForAwakener(id);
     }
 
@@ -355,13 +356,9 @@ public class AppController {
      */
 
     @GetMapping(value = "/getListRiftStatusesByRiftId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RiftStatusR> getListRiftStatusesByRiftId(@PathVariable(value = "id") Long id){
+    public List<RiftStatusR> getListRiftStatusesByRiftId(@PathVariable(value = "id") Long id) {
         return registerService.getListRiftStatusesByRiftId(id);
     }
-
-
-
-
 
 
 }

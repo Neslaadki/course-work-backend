@@ -2,7 +2,6 @@ package com.example.courseworkbackend.services;
 
 import com.example.courseworkbackend.entities.*;
 import com.example.courseworkbackend.entities.dao.requests.MaterialD;
-import com.example.courseworkbackend.entities.dao.requests.MonsterD;
 import com.example.courseworkbackend.entities.dao.requests.RiftStatusD;
 import com.example.courseworkbackend.entities.dao.responses.*;
 import com.example.courseworkbackend.repositories.*;
@@ -19,17 +18,17 @@ import java.util.List;
 public class RegisterService {
 
     @Autowired
-    private  RiftRepository riftRepository;
+    private RiftRepository riftRepository;
     @Autowired
-    private  MonsterRepository monsterRepository;
+    private MonsterRepository monsterRepository;
     @Autowired
-    private  ArtifactRepository artifactRepository;
+    private ArtifactRepository artifactRepository;
     @Autowired
-    private  CoordinateRepository coordinateRepository;
+    private CoordinateRepository coordinateRepository;
     @Autowired
-    private  CountryRepository countryRepository;
+    private CountryRepository countryRepository;
     @Autowired
-    private  TypesRepository typesRepository;
+    private TypesRepository typesRepository;
     @Autowired
     private MaterialRepository materialRepository;
     @Autowired
@@ -49,7 +48,7 @@ public class RegisterService {
         );
     }
 
-    public List<RiftR> getRiftListByEmployeeId(Long id){
+    public List<RiftR> getRiftListByEmployeeId(Long id) {
         List<Rift> list = riftRepository.getListRiftByIdEmployeeAccessLevel(id);
         List<RiftR> listN = new ArrayList<>();
         if (!list.isEmpty()) {
@@ -68,7 +67,7 @@ public class RegisterService {
         return listN;
     }
 
-    public List<RiftR> getListRiftByGroupAndCountry(Long groupId, Long countryId){
+    public List<RiftR> getListRiftByGroupAndCountry(Long groupId, Long countryId) {
         List<Rift> list = riftRepository.getListRiftByGroupAndCountry(groupId, countryId);
         List<RiftR> listN = new ArrayList<>();
         if (!list.isEmpty()) {
@@ -88,12 +87,12 @@ public class RegisterService {
         return listN;
     }
 
-    public List<RiftR> getRiftList(Long countryId){
+    public List<RiftR> getRiftList(Long countryId) {
         List<Rift> list = riftRepository.findAll();
         List<RiftR> riftN = new ArrayList<>();
         if (!list.isEmpty()) {
             for (Rift rift : list) {
-                if (rift.getCountry().getId_country().equals(countryId)){
+                if (rift.getCountry().getId_country().equals(countryId)) {
                     riftN.add(
                             new RiftR()
                                     .setId(rift.getId())
@@ -108,17 +107,16 @@ public class RegisterService {
         return riftN;
     }
 
-    public List<RiftStatusR> getListRiftStatusesByRiftId(Long id){
-//        List<RiftStatus> list = riftStatusRepository.getAllById_rift(id);
+    public List<RiftStatusR> getListRiftStatusesByRiftId(Long id) {
         List<RiftStatus> list = riftStatusRepository.findAll();
         List<RiftStatusR> riftN = new ArrayList<>();
         if (!list.isEmpty()) {
             for (RiftStatus riftStatus : list) {
-                if (riftStatus.getId_rift().getId().equals(id)){
+                if (riftStatus.getId_rift().getId().equals(id)) {
                     riftN.add(
                             new RiftStatusR()
                                     .setId(riftStatus.getId())
-                                    .setGroupName(riftStatus.getGroup_id() == null? "*не назначена*" : riftStatus.getGroup_id().getName())
+                                    .setGroupName(riftStatus.getGroup_id() == null ? "*не назначена*" : riftStatus.getGroup_id().getName())
                                     .setTime(riftStatus.getTime())
                                     .setOpenTime(riftStatus.getTime_to_open())
                                     .setResult(riftStatus.isResult())
@@ -131,7 +129,7 @@ public class RegisterService {
         return riftN;
     }
 
-    public void addMaterial(MaterialD materialD){
+    public void addMaterial(MaterialD materialD) {
         materialRepository.save(
                 new Material()
                         .setName(materialD.getName())
@@ -140,10 +138,10 @@ public class RegisterService {
         );
     }
 
-    public void addStatusRift(RiftStatusD riftStatusD){
+    public void addStatusRift(RiftStatusD riftStatusD) {
         riftStatusRepository.save(
                 new RiftStatus()
-                        .setGroup_id(riftStatusD.getGroupId() == null ? null :  groupRepository.getById(riftStatusD.getGroupId()))
+                        .setGroup_id(riftStatusD.getGroupId() == null ? null : groupRepository.getById(riftStatusD.getGroupId()))
                         .setId_rift(riftRepository.getById(riftStatusD.getRiftId()))
                         .setResult(riftStatusD.isResult())
                         .setTime_to_open(riftStatusD.getOpenTime())
@@ -154,7 +152,7 @@ public class RegisterService {
     }
 
 
-    public List<MonsterR> getMonsterList(Long riftId){
+    public List<MonsterR> getMonsterList(Long riftId) {
         List<Monster> list = monsterRepository.getListMonsters(riftId);
         List<MonsterR> listN = new ArrayList<>();
         if (!list.isEmpty()) {
@@ -169,7 +167,7 @@ public class RegisterService {
         return listN;
     }
 
-    public List<ArtifactR> getArtifactList(Long riftId){
+    public List<ArtifactR> getArtifactList(Long riftId) {
         List<Artifact> list = artifactRepository.getListArtifacts(riftId);
         List<ArtifactR> listN = new ArrayList<>();
         if (!list.isEmpty()) {
@@ -184,7 +182,7 @@ public class RegisterService {
         return listN;
     }
 
-    public List<MaterialR> getMaterialList(Long riftId){
+    public List<MaterialR> getMaterialList(Long riftId) {
         List<Material> list = materialRepository.getListMaterials(riftId);
         List<MaterialR> listN = new ArrayList<>();
         if (!list.isEmpty()) {
@@ -200,27 +198,16 @@ public class RegisterService {
     }
 
 
-
-
-    public void closeRift(){
-
-    }
-
-    public void changeStatus(){
-
-    }
-
-    public void setArtifactOrMonsterType(String name, String description, String classType){
+    public void setArtifactOrMonsterType(String name, String description, String classType) {
         typesRepository.save(
-            new Types()
-                    .setName(name)
-                    .setDescription(description)
-                    .setClass_type(ClassType.getClassType(classType)));
+                new Types()
+                        .setName(name)
+                        .setDescription(description)
+                        .setClass_type(ClassType.getClassType(classType)));
     }
 
 
-
-    public void addMonster(Long id_type, Long id_rift, Integer rank){
+    public void addMonster(Long id_type, Long id_rift, Integer rank) {
         Monster monster = new Monster().setTypes(typesRepository.getById(5L)).setDetection_rift(riftRepository.getById(1L)).setRank(1);
         monsterRepository.save(
                 new Monster()

@@ -9,4 +9,5 @@ public class PositionR {
 
     private Long position_id;
     private String position_name;
+
 }

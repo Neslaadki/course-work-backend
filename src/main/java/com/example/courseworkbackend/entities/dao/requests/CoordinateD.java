@@ -6,6 +6,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class CoordinateD {
+
     private Float latitude;
     private Float longitude;
+
 }

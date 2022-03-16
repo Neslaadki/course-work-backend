@@ -31,11 +31,11 @@ public class ComponentLoaderService {
     private RiftRepository riftRepository;
 
 
-    public List<RiftR> getRiftsMap(){
+    public List<RiftR> getRiftsMap() {
         List<Rift> list = riftRepository.findAll();
         List<RiftR> listN = new ArrayList<>();
-        if (!list.isEmpty()){
-            for (Rift rift : list){
+        if (!list.isEmpty()) {
+            for (Rift rift : list) {
                 listN.add(new RiftR()
                         .setId(rift.getId())
                         .setCoordinateX(rift.getCoordinate().getLatitude().toString())

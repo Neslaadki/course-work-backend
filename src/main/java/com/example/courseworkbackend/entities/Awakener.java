@@ -2,11 +2,8 @@ package com.example.courseworkbackend.entities;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Check;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -43,8 +40,6 @@ public class Awakener {
     private Integer experience;
     @NotNull
     private Timestamp awakeTime;
-
-
 
 
 }

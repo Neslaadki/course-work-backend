@@ -10,4 +10,5 @@ public class ArtifactR {
     private Long artifactId;
     private int price;
     private String typeName;
+
 }

@@ -7,5 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class GroupD {
+
     private String name;
+
 }
